@@ -7,7 +7,7 @@ from pybrain.structure.modules      import SoftmaxLayer
 from pybrain.datasets               import SupervisedDataSet
 
 random.seed(2344)
-n_examples = 10000
+n_examples = 6000
 
 
 def rand(*size):
@@ -44,24 +44,10 @@ def benchmarking(arac = False):
     trainer.trainEpochs(1)
     t = time.time() - t
     bmark.write('mlp_32_10\t')
-    bmark.write('pybrain_python atlas=OS_version\t')
-    bmark.write('%.2f\n'%t)
+    bmark.write('pybrain_python\t')
+    bmark.write('%.2f\n'%(n_examples/t))
     bmark.write('# Pybrain does not support NLL, squared error used \n')
     bmark.write('# Pybrain does not support minibatches \n')
-
-    if arac: 
-        del fnn
-        del trainer
-        fnn = buildNetwork(32,10, outclass = SoftmaxLayer, fast = True)
-        trainer = BackpropTrainer(fnn, dataset = data32, learningrate = 0.01, verbose = True)
-        t = time.time()
-        trainer.trainEpochs(1)
-        t = time.time() - t
-        bmark.write('mlp_32_10\t')
-        bmark.write('pybrain_arac atlas=OS_version\t')
-        bmark.write('%.2f\n'%t)
-        bmark.write('# Pybrain does not support NLL, squared error used \n')
-        bmark.write('# Pybrain does not support minibatches \n')
 
     del data32
     del fnn
@@ -74,8 +60,8 @@ def benchmarking(arac = False):
     trainer.trainEpochs(1)
     t = time.time() - t
     bmark.write('mlp_784_10\t')
-    bmark.write('pybrain_python atlas=OS_version\t')
-    bmark.write('%.2f\n'%t)
+    bmark.write('pybrain_python\t')
+    bmark.write('%.2f\n'%(n_examples/t))
     bmark.write('# Pybrain does not support NLL, squared error used \n')
     bmark.write('# Pybrain does not support minibatches \n')
 
@@ -89,8 +75,8 @@ def benchmarking(arac = False):
     trainer.trainEpochs(1)
     t = time.time() - t
     bmark.write('mlp_784_500_10\t')
-    bmark.write('pybrain_python atlas=OS_version\t')
-    bmark.write('%.2f\n'%t)
+    bmark.write('pybrain_python\t')
+    bmark.write('%.2f\n'%(n_examples/t))
     bmark.write('# Pybrain does not support NLL, squared error used \n')
     bmark.write('# Pybrain does not support minibatches \n')
 
@@ -104,24 +90,44 @@ def benchmarking(arac = False):
     t = time.time()
     trainer.trainEpochs(1)
     t = time.time() - t
-    bmark.write('mlp_784_1000__1000_1000_10\t')
-    bmark.write('pybrain_python atlas=OS_version\t')
-    bmark.write('%.2f\n'%t)
+    bmark.write('mlp_784_1000_1000_1000_10\t')
+    bmark.write('pybrain_python\t')
+    bmark.write('%.2f\n'%(n_examples/t))
     bmark.write('# Pybrain does not support NLL, squared error used \n')
     bmark.write('# Pybrain does not support minibatches \n')
 
+    bmark.write('#\n# Arac : \n#\n')
+
     if arac:
+        del data784
         del fnn
         del trainer
 
+        data32  = small_data()
+        fnn = buildNetwork(32,10, outclass = SoftmaxLayer, fast = True)
+        trainer = BackpropTrainer(fnn, dataset = data32, learningrate = 0.01, verbose = True)
+        t = time.time()
+        trainer.trainEpochs(1)
+        t = time.time() - t
+        bmark.write('mlp_32_10\t')
+        bmark.write('pybrain_arac\t')
+        bmark.write('%.2f\n'%(n_examples/t))
+        bmark.write('# Pybrain does not support NLL, squared error used \n')
+        bmark.write('# Pybrain does not support minibatches \n')
+
+        del data32
+        del fnn
+        del trainer
+        
+        data784 = large_data()
         fnn = buildNetwork(784,10, outclass = SoftmaxLayer, fast = True)
         trainer = BackpropTrainer(fnn, dataset = data784, learningrate = 0.01, verbose = True)
         t = time.time()
         trainer.trainEpochs(1)
         t = time.time() - t
         bmark.write('mlp_784_10\t')
-        bmark.write('pybrain_arac atlas=OS_version\t')
-        bmark.write('%.2f\n'%t)
+        bmark.write('pybrain_arac\t')
+        bmark.write('%.2f\n'%(n_examples/t))
         bmark.write('# Pybrain does not support NLL, squared error used \n')
         bmark.write('# Pybrain does not support minibatches \n')
 
@@ -135,11 +141,10 @@ def benchmarking(arac = False):
         trainer.trainEpochs(1)
         t = time.time() - t
         bmark.write('mlp_784_500_10\t')
-        bmark.write('pybrain_arac atlas=OS_version\t')
-        bmark.write('%.2f\n'%t)
+        bmark.write('pybrain_arac\t')
+        bmark.write('%.2f\n'%(n_examples/t))
         bmark.write('# Pybrain does not support NLL, squared error used \n')
         bmark.write('# Pybrain does not support minibatches \n')
-
 
         del fnn
         del trainer
@@ -150,12 +155,11 @@ def benchmarking(arac = False):
         t = time.time()
         trainer.trainEpochs(1)
         t = time.time() - t
-        bmark.write('mlp_784_1000__1000_1000_10\t')
-        bmark.write('pybrain_arac atlas=OS_version\t')
-        bmark.write('%.2f\n'%t)
+        bmark.write('mlp_784_1000_1000_1000_10\t')
+        bmark.write('pybrain_arac\t')
+        bmark.write('%.2f\n'%(n_examples/t))
         bmark.write('# Pybrain does not support NLL, squared error used \n')
-        bmark.write('# Pybrain does not support minibatches \n')
-        
+        bmark.write('# Pybrain does not support minibatches \n') 
         bmark.close()
 
 if __name__ == '__main__':

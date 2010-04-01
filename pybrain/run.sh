@@ -1,7 +1,6 @@
 #!/bin/bash
 
-export LD_LIBRARY_PATH=/usr/lib64/atlas/:$LD_LIBRARY_PATH
-export PYTHONPATH=$PYTHONPATH:/u/lisa/local/install_package/arac/src/python
-echo "Using the OS version of atlas (~2-3 slower ?) !!"
+export LD_LIBRARY_PATH=/u/bergstrj/pub/intel/mkl/10.2.4.032/lib/em64t:/u/pascanur/arac:/u/pascanur/gtest/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=$PYTHONPATH:/u/pascanur/arac/src/python
 
 python mlp.py
