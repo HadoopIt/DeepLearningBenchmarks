@@ -10,7 +10,7 @@ def rcolor():
 
 from build_csv import build_results
 
-results = build_results() # dict task -> impl -> time
+results = build_results(sys.argv[1]) # dict task -> impl -> time
 
 n_tasks = len(results)
 
@@ -65,5 +65,5 @@ ax.legend( [r[0] for r in rects], impls, 'upper left' )
 
 subplots_adjust(left=.09, bottom=.14, right=.97, top=.95)
 
-plt.show()
+savefig('blah.pdf')
 
