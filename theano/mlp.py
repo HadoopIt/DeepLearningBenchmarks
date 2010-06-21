@@ -43,7 +43,7 @@ def reportmodel(model, batchsize, t):
     else:
         prec = 'double'
     bmark.write("theano{%s/%s/%i}\t" % (
-        config.device[0], prec, batchsize))
+        config.device[0:3], prec, batchsize))
     bmark.write("%.2f\n"%(n_examples/t)) # report examples / second
 
 def eval_and_report(train, name):

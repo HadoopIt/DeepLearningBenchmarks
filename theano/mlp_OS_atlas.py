@@ -30,7 +30,7 @@ nsi = lscalar()
 sx = data_x[si:si+nsi]
 sy = data_y[si:si+nsi]
 
-bmark = open("mlp_%s_%s_OS_atlas.bmark" %(config.device, config.floatX), 'w')
+bmark = open("mlp_%s_%s_OS_atlas.bmark" %(config.device[0:3], config.floatX), 'w')
 
 def reportmodel(model, batchsize, t):
     bmark.write("%s\t" % model)

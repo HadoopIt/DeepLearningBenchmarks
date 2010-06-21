@@ -59,7 +59,7 @@ for i in xrange(niter):
 
 print 'cd1 rbm_bernoulli %i_%i\ttheano{%s/%s/%i}\t%.2f' %(
         nin, nout, 
-        config.device[0],
+        config.device[0:3],
         ('float' if config.floatX == 'float32' else 'double'),
         batchsize, 
         niter*batchsize/(time.time() - t))
