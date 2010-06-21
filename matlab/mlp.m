@@ -36,7 +36,7 @@ tic;
 net = adapt(net, cs_dx, cs_dy);
 t = toc
 fprintf(bmark, 'mlp_32_10\t');
-fprintf(bmark, 'matlab{1}\t');
+fprintf(bmark, 'matlab{cpu/double/1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 fprintf(bmark, '# Could not find NLL, using meam square error (the default)\n');
 
@@ -50,7 +50,7 @@ for i = 1:n_examples/60
 end
 t = toc
 fprintf(bmark, 'mlp_32_10\t');
-fprintf(bmark, 'matlab{60}\t');
+fprintf(bmark, 'matlab{cpu/double/60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 fprintf(bmark, '# Could not find NLL, using meam square error (the default)\n');
 
@@ -84,7 +84,7 @@ tic;
 net = adapt(net, cl_dx, cl_dy);
 t = toc
 fprintf(bmark, 'mlp_784_10\t');
-fprintf(bmark, 'matlab{1}\t');
+fprintf(bmark, 'matlab{cpu/double/1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 fprintf(bmark, '# Could not find NLL, using mean square error (the default)\n');
 
@@ -95,7 +95,7 @@ for i = 1:n_examples/60
 end
 t = toc
 fprintf(bmark, 'mlp_784_10\t');
-fprintf(bmark, 'matlab{60}\t');
+fprintf(bmark, 'matlab{cpu/double/60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 fprintf(bmark, '# Could not find NLL, using mean square error (the default)\n');
 
@@ -114,7 +114,7 @@ tic
 net = adapt(net, cl_dx, cl_dy);
 t = toc
 fprintf(bmark, 'mlp_784_500_10\t');
-fprintf(bmark, 'matlab{1}\t');
+fprintf(bmark, 'matlab{cpu/double/1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 fprintf(bmark, '# Could not find NLL, using mean square error (the default)\n');
 
@@ -125,7 +125,7 @@ for i = 1:n_examples/60
 end
 t = toc
 fprintf(bmark, 'mlp_784_500_10\t');
-fprintf(bmark, 'matlab{60}\t');
+fprintf(bmark, 'matlab{cpu/double/60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 fprintf(bmark, '# Could not find NLL, using mean square error (the default)\n');
 
@@ -143,7 +143,7 @@ tic;
 net = adapt(net, cl_dx, cl_dy);
 t = toc
 fprintf(bmark, 'mlp_784_1000_1000_1000_10\t');
-fprintf(bmark, 'matlab{1}\t');
+fprintf(bmark, 'matlab{cpu/double/1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 fprintf(bmark, '# Could not find NLL, using mean square error (the default)\n');
@@ -155,7 +155,7 @@ for i = 1:n_examples/60
 end
 t = toc
 fprintf(bmark, 'mlp_784__1000_1000_1000_10\t');
-fprintf(bmark, 'matlab{60}\t');
+fprintf(bmark, 'matlab{cpu/double/60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 fprintf(bmark, '# Could not find NLL, using mean square error (the default)\n');
 

@@ -33,7 +33,7 @@ end
 t = toc
 
 fprintf(bmark, 'mlp_784_10\t');
-fprintf(bmark, 'matlab_our_impl{g/1}\t');
+fprintf(bmark, 'matlab_our_impl{gpu/float/1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 bs = 60;
@@ -63,6 +63,6 @@ end
 t = toc
 
 fprintf(bmark, 'mlp_784_10\t');
-fprintf(bmark, 'matlab_our_impl{g/60}\t');
+fprintf(bmark, 'matlab_our_impl{gpu/float/60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
