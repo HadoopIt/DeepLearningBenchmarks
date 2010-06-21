@@ -143,7 +143,9 @@ if __name__ == '__main__':
     vals      = [ times['shallow_mlp'][x[0]] for x in names ]
     tps       = [ x[2] for x in names ] 
     cols      = [ x[3] for x in names ]
+
     figure(vals, name_vals,  tps, cols,save = 'mlp.pdf')
+
     # Plot 2 : CONV
     names = [ \
              ('theano[1][gpu]' , 'Theano using the GPU, 79 examples/sec', 'GPU', 'r') \

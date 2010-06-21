@@ -1,6 +1,9 @@
+function num_mlp(hostname)
+
 n_examples = 6000;
 
-bmark = fopen('clone_numpy_mlp.bmark','w');
+filename = sprintf('%s_matlab_mlp.bmark', hostname)
+bmark = fopen(filename,'w');
 
 
 data_x = (rand(n_examples,784)-0.5)*1.5;
@@ -42,7 +45,7 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_500_10\t');
-fprintf(bmark, 'matlab_our_impl{1}\t');
+fprintf(bmark, 'matlab{CPU}{1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 bs = 60;
@@ -74,7 +77,7 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_500_10\t');
-fprintf(bmark, 'matlab_our_impl{60}\t');
+fprintf(bmark, 'matlab{CPU}{60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 bs = 1
 w1 = rand(784,1000);
@@ -130,7 +133,7 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_1000_1000_1000_10\t');
-fprintf(bmark, 'matlab_our_impl{1}\t');
+fprintf(bmark, 'matlab{CPU}{1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 bs = 60;
@@ -186,8 +189,10 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_1000_1000_1000_10\t');
-fprintf(bmark, 'matlab_our_impl{60}\t');
+fprintf(bmark, 'matlab{CPU}{60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 
 fclose(bmark)
+exit
+end

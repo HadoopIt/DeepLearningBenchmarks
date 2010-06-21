@@ -1,7 +1,9 @@
+function gpu_num_mlp(hostname)
+
 n_examples = 6000;
 
-bmark = fopen('gpu_our_impl_mlp.bmark','w');
-
+filename = sscanf('%s_GPU_matlab_mlp.bmark', hostname)
+bmark = fopen(filename,'w');
 
 data_x = GPUsingle((rand(n_examples,784)-0.5)*1.5);
 data_y = GPUsingle((rand(n_examples,10)-0.5)*1.5);
@@ -51,7 +53,7 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_500_10\t');
-fprintf(bmark, 'matlab_our_impl{g/1}\t');
+fprintf(bmark, 'matlab{GPU}{1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 bs = 60;
@@ -93,7 +95,7 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_500_10\t');
-fprintf(bmark, 'matlab_our_impl{g/60}\t');
+fprintf(bmark, 'matlab{GPU}{60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 bs = 1
 w1 = GPUsingle(rand(784,1000));
@@ -174,7 +176,7 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_1000_1000_1000_10\t');
-fprintf(bmark, 'matlab_our_impl{g/1}\t');
+fprintf(bmark, 'matlab{GPU}{1}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 bs = 60;
@@ -255,8 +257,10 @@ end
 t = toc;
 
 fprintf(bmark, 'mlp_784_1000_1000_1000_10\t');
-fprintf(bmark, 'matlab_our_impl{g/60}\t');
+fprintf(bmark, 'matlab{GPU}{60}\t');
 fprintf(bmark, '%.2f\n', n_examples/t);
 
 
 fclose(bmark)
+exit
+end
