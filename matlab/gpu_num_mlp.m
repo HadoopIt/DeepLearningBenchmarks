@@ -2,7 +2,7 @@ function gpu_num_mlp(hostname)
 
 n_examples = 6000;
 
-filename = sscanf('%s_GPU_matlab_mlp.bmark', hostname)
+filename = sprintf('%s_GPU_matlab_mlp.bmark', hostname)
 bmark = fopen(filename,'w');
 
 data_x = GPUsingle((rand(n_examples,784)-0.5)*1.5);
