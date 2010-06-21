@@ -33,7 +33,7 @@ else:
 
 def reportmodel(model, batchsize, v):
     bmark.write("%s\t" % model)
-    bmark.write("theano{%s/%s/%i}\t" % (
+    bmark.write("scipy{%s/%s/%i}\t" % (
         'cpu', prec, batchsize))
     bmark.write("%.2f\n"%v)
 
