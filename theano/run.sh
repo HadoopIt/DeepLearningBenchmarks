@@ -8,18 +8,20 @@ python -c 'import numpy;print "Numpy config";numpy.__config__.show()' >>  ${HOST
 python -c 'import scipy;print "Scipy version:",scipy.__version__' >>  ${HOSTNAME}_config.conf
 python -c 'import scipy;print "Scipy config";scipy.__config__.show()' >>  ${HOSTNAME}_config.conf
 python -V 2>>  ${HOSTNAME}_config.conf
-
+nvidia-smi -a >> ${HOSTNAME}_config.conf
 
 TEST_CPU=1
 TEST_GPU=0
 COND=${1:-"CPU"}
 
 if [ "$COND" == "CPU/GPU" ] ; then
+    echo "Running the cpu and gpu version"
     TEST_CPU=1
     TEST_GPU=1
 fi
 
 if [ "$COND" == "GPU" ] ; then
+    echo "Running the gpu version"
     TEST_CPU=0
     TEST_GPU=1
 fi
