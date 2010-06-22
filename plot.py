@@ -155,7 +155,7 @@ if __name__ == '__main__':
 
     # Plot 2 : CONV
     names = [
-#        ('theano[1][gpu]' , 'Theano using the GPU, 79 examples/sec', 'GPU', 'r'),
+        ('theano[1][gpu]' , 'Theano using the GPU, 79 examples/sec', 'GPU', 'r'),
         ('theano[1][cpu]' , 'Theano using the CPU, 10 examples/sec','CPU','g'),
         ('torch[1]'       , 'Torch, 5 examples/sec', 'CPU', 'b'),
         ('scipy[1]'       , 'SciPy, 2 examples/sec *','CPU','y'),
