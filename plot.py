@@ -60,8 +60,9 @@ if __name__ == '__main__':
             if f.endswith('.bmark'):
                 lines = open(os.path.join(dirname,f)).readlines()
                 for line in lines:
-                    line = line.strip()
-                    sp = line.split('\t')
+                    line_ = line.strip()
+                    if not line_: continue
+                    sp = line_.split('\t')
                     d[tuple(sp[0:2])] = float(sp[2])
         dirs[dirname]=d
     
@@ -76,8 +77,10 @@ if __name__ == '__main__':
     #('ConvMed', 'scipy{cpu/double/1}'): ['5.20'],
 
     os.path.walk('theano',parse_bmark, None)
-    theano = dirs['theano']
     os.path.walk('matlab',parse_bmark, None)
+    os.path.walk('torch5',parse_bmark, None)
+    os.path.walk('eblearn',parse_bmark, None)
+
     import pdb;pdb.set_trace()
 
     def get(dest, key, source, key2):
@@ -103,11 +106,11 @@ if __name__ == '__main__':
     gets('theano','[60][cpu]','{cpu/double/60}')#10.23#79729.01#4902.42#483.75#356.91
     gets('theano','[1][gpu]','{gpu/float/1}')#79#1850.63#793.69#229.85#498.29
     gets('theano','[60][gpu]','{gpu/float/60}')#78.44#70855.12#38310#6882.59#12598.77
+    gets('torch5','[1][cpu]','')#5.70#logreg#s_mlp#d_mlp#rbm
+    gets('torch5','[60][cpu]','')#5.70#logreg#770.22#47.61#rbm
 
-
-    conv['eblearn']                  = 6.31361
-    conv['eblearn_ipp']              = 6.15147
-    conv['torch[1]']                 = 5.70
+    conv['eblearn']                  = dirs['eblearn'][('ConvLarge', 'eblearn')]#6.31361
+    conv['eblearn_ipp']              = dirs['eblearn'][('ConvLarge', 'eblearn{ipp}')]#6.15147
     conv['scipy[1]']                 = dirs['scipy'][('ConvLarge', 'scipy{cpu/double/1}')]#2.37
 
     #logreg['pybrain']                = 1096.11
@@ -116,14 +119,10 @@ if __name__ == '__main__':
     #s_mlp['pybrain[arac]']           = 61.09
     #s_mlp['matlab_nn[1]']            = 29.52
     #s_mlp['matlab_nn[60]']           = 1058.43
-    s_mlp['torch[60]']               = 770.22
     #d_mlp['pybrain']                 = 6.02
     #d_mlp['pybrain[arac]']           = 7.07
     #d_mlp['matlab_nn[1]']            = 4.19
     #d_mlp['matlab_nn[60]']           = 172.11
-    d_mlp['torch[60]']               = 47.61
-    
-    
     rbm['cudamat[1]']                = 460.30
     rbm['cudamat[60]']               = 13214.87
 
@@ -140,7 +139,7 @@ if __name__ == '__main__':
              ('theano[60][gpu]' ,'Theano using the GPU, 38310 examples/sec','GPU', 'r') \
              , ('matlab[60][gpu]' ,'Matlab using the GPU, 5809 examples/sec','GPU','k') 
              , ('theano[60][cpu]' ,'Theano using the CPU, 4902 examples/sec','CPU','g') \
-             , ('torch[60]'       ,'Torch, 770 examples/sec','CPU','b')                \
+             , ('torch5[60][cpu]'  ,'Torch, 770 examples/sec','CPU','b')                \
              , ('numpy[60]'       ,'Numpy, 2523 examples/sec','CPU','y')
              , ('matlab[60][cpu]' ,'Matlab using the CPU, 3285 examples/sec','CPU','m')\
              #, ('pybrain'        ,'PyBrain')              \
@@ -157,7 +156,7 @@ if __name__ == '__main__':
     names = [
         ('theano[1][gpu]' , 'Theano using the GPU, 79 examples/sec', 'GPU', 'r'),
         ('theano[1][cpu]' , 'Theano using the CPU, 10 examples/sec','CPU','g'),
-        ('torch[1]'       , 'Torch, 5 examples/sec', 'CPU', 'b'),
+        ('torch5[1][cpu]'  , 'Torch, 5 examples/sec', 'CPU', 'b'),
         ('scipy[1]'       , 'SciPy, 2 examples/sec *','CPU','y'),
         ('eblearn'        , 'EBLearn, 6 examples/sec','CPU','c'),
         ]
