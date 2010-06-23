@@ -123,8 +123,8 @@ if __name__ == '__main__':
     #d_mlp['pybrain[arac]']           = 7.07
     #d_mlp['matlab_nn[1]']            = 4.19
     #d_mlp['matlab_nn[60]']           = 172.11
-    rbm['cudamat[1]']                = 460.30
-    rbm['cudamat[60]']               = 13214.87
+    #rbm['cudamat[1]']                = 460.30
+    #rbm['cudamat[60]']               = 13214.87
 
 
     times['logreg']      = logreg
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     times['rbm']         = rbm
 
 
-    # Plot 1 : Deep MLP  ( only batch size 60 )
+    # Plot 1 : Shallow MLP  ( only batch size 60 )
     names = [\
              ('theano[60][gpu]' ,'Theano using the GPU, 38310 examples/sec','GPU', 'r') \
              , ('matlab[60][gpu]' ,'Matlab using the GPU, 5809 examples/sec','GPU','k') 
