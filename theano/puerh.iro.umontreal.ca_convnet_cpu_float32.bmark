@@ -1,0 +1,6 @@
+ConvSmall	theano{cpu/float/1}	583.36
+ConvSmall	theano{cpu/float/60}	1029.00
+ConvMed	theano{cpu/float/1}	87.11
+ConvMed	theano{cpu/float/60}	96.82
+ConvLarge	theano{cpu/float/1}	16.50
+ConvLarge	theano{cpu/float/60}	16.79

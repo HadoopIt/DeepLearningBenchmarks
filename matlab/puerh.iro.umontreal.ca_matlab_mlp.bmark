@@ -1,0 +1,4 @@
+mlp_784_500_10	matlab{cpu/double/1}	421.38
+mlp_784_500_10	matlab{cpu/double/60}	4093.03
+mlp_784_1000_1000_1000_10	matlab{cpu/double/1}	30.86
+mlp_784_1000_1000_1000_10	matlab{cpu/double/60}	475.38

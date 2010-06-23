@@ -1,0 +1,7 @@
+mlp_32_10	torch5	50000.00
+mlp_784_10	torch5	25000.00
+mlp_784_500_10	torch5	459.42
+mlp_784_1000_1000_1000_10	torch5	30.88
+ConvSmall	torch5	312.17
+ConvMed	torch5	37.74
+ConvLarge	torch5	6.83

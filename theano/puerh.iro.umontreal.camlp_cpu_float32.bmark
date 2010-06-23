@@ -1,0 +1,6 @@
+mlp_784_10	theano{cpu/float/1}	7589.87
+mlp_784_10	theano{cpu/float/60}	128071.00
+mlp_784_500_10	theano{cpu/float/1}	2618.99
+mlp_784_500_10	theano{cpu/float/60}	11861.38
+mlp_784_1000_1000_1000_10	theano{cpu/float/1}	173.47
+mlp_784_1000_1000_1000_10	theano{cpu/float/60}	1310.79

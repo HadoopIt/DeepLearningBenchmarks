@@ -1,0 +1,3 @@
+ConvSmall	scipy{cpu/double/1}	56.78
+ConvMed	scipy{cpu/double/1}	6.23
+ConvLarge	scipy{cpu/double/1}	2.83

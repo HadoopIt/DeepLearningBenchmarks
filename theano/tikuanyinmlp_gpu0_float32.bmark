@@ -1,0 +1,6 @@
+mlp_784_10	theano{gpu/float/1}	2026.73
+mlp_784_10	theano{gpu/float/60}	76091.06
+mlp_784_500_10	theano{gpu/float/1}	1095.42
+mlp_784_500_10	theano{gpu/float/60}	38310
+mlp_784_1000_1000_1000_10	theano{gpu/float/1}	279.96
+mlp_784_1000_1000_1000_10	theano{gpu/float/60}	6361.64

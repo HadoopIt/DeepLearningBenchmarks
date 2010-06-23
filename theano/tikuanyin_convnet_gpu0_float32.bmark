@@ -1,0 +1,6 @@
+ConvSmall	theano{gpu/float/1}	482.15
+ConvSmall	theano{gpu/float/60}	8740.86
+ConvMed	theano{gpu/float/1}	218.60
+ConvMed	theano{gpu/float/60}	583.54
+ConvLarge	theano{gpu/float/1}	79
+ConvLarge	theano{gpu/float/60}	84.86
