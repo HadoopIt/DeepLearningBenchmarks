@@ -1,5 +1,9 @@
 #!/bin/sh
 
+#To use the numpy/scipy with mkl at lisa you must do:
+#export PYTHONPATH=~bastienf/repos/numpy_mkl/lib64/python2.5/site-packages/
+#export LD_LIBRARY_PATH=~bastienf/repos/numpy_mkl/lib64/python2.5/site-packages/:/u/bergstrj/pub/intel/mkl/10.2.4.032/lib/em64t
+
 cat /proc/cpuinfo |grep "model name"|uniq > ${HOSTNAME}_config.conf
 free >> ${HOSTNAME}_config.conf
 uname -a >>  ${HOSTNAME}_config.conf
