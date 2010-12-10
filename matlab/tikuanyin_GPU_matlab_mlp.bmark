@@ -1,0 +1,4 @@
+mlp_784_500_10	matlab{gpu/float/1}	123.72
+mlp_784_500_10	matlab{gpu/float/60}	5864.98
+mlp_784_1000_1000_1000_10	matlab{gpu/float/1}	53.91
+mlp_784_1000_1000_1000_10	matlab{gpu/float/60}	2293.78
