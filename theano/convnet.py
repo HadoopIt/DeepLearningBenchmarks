@@ -20,6 +20,7 @@ def randint(size, high):
 def zeros(*size):
     return numpy.zeros(size, dtype=config.floatX)
 
+verbose=0
 n_examples=1000
 outputs=10
 lr=numpy.asarray(0.01, dtype=config.floatX)
@@ -32,20 +33,20 @@ nsi = lscalar()
 sx = data_x[si:si+nsi]
 sy = data_y[si:si+nsi]
 
-bmark = open("%s_convnet_%s_%s.bmark"% (socket.gethostname(), config.device, config.floatX), 'w')
+bmark = None
 
 if config.floatX == 'float32':
     prec = 'float'
 else:
     prec = 'double'
 
-def reportmodel(model, batchsize, v):
+def reportmodel(model, batchsize, v, extra=''):
     bmark.write("%s\t" % model)
-    bmark.write("theano{%s/%s/%i}\t" % (
-        config.device[0:3], prec, batchsize))
+    bmark.write("theano{%s/%s/%i%s}\t" % (
+        config.device[0:3], prec, batchsize, extra))
     bmark.write("%.2f\n"%v)
 
-def eval_and_report(train, name, batchsizes, N=n_examples):
+def eval_and_report(train, name, batchsizes, N=n_examples, extra=""):
     for bs in batchsizes:
         assert N % bs == 0 # can't be cheatin now...
         t = time.time()
@@ -53,7 +54,7 @@ def eval_and_report(train, name, batchsizes, N=n_examples):
             cost = train(i*bs, bs)
             if not (i % (1000/bs)):
                 print i*bs, cost
-        reportmodel(name, bs, N/(time.time()-t))
+        reportmodel(name, bs, N/(time.time()-t), extra=extra)
 
 def bench_ConvSmall(batchsize):
     data_x.value = randn(n_examples, 1, 32, 32)
@@ -67,10 +68,10 @@ def bench_ConvSmall(batchsize):
     c = shared(zeros(outputs))
     params = [w0, b0, w1, b1, v, c, vv, cc]
 
-    c0 = tanh(conv2d(sx, w0, image_shape=(batchsize, 1, 32, 32), filter_shape=(6, 1, 5, 5)) + b0.dimshuffle(0, 'x', 'x'))
+    c0 = tanh(conv2d(sx, w0, image_shape=(batchsize, 1, 32, 32), filter_shape=(6, 1, 5, 5), verbose=verbose) + b0.dimshuffle(0, 'x', 'x'))
     s0 = tanh(max_pool_2d(c0, (2,2))) # this is not the correct leNet5 model, but it's closer to
 
-    c1 = tanh(conv2d(s0, w1, image_shape=(batchsize, 6, 14, 14), filter_shape=(16,6,5,5)) + b1.dimshuffle(0, 'x', 'x'))
+    c1 = tanh(conv2d(s0, w1, image_shape=(batchsize, 6, 14, 14), filter_shape=(16,6,5,5), verbose=verbose) + b1.dimshuffle(0, 'x', 'x'))
     s1 = tanh(max_pool_2d(c1, (2,2)))
 
     p_y_given_x = softmax(dot(tanh(dot(s1.flatten(2), vv)+cc), v)+c)
@@ -84,7 +85,7 @@ def bench_ConvSmall(batchsize):
 
     eval_and_report(train, "ConvSmall", [batchsize], N=600)
 
-def bench_ConvMed(batchsize):
+def bench_ConvMed(batchsize, extra=""):
     data_x.value = randn(n_examples, 1, 96, 96)
     w0 = shared(rand(6, 1, 7, 7) * numpy.sqrt(6 / (25.)))
     b0 = shared(zeros(6))
@@ -96,10 +97,10 @@ def bench_ConvMed(batchsize):
     c = shared(zeros(outputs))
     params = [w0, b0, w1, b1, v, c, vv, cc]
 
-    c0 = tanh(conv2d(sx, w0, image_shape=(batchsize, 1, 96, 96), filter_shape=(6,1,7,7)) + b0.dimshuffle(0, 'x', 'x'))
+    c0 = tanh(conv2d(sx, w0, image_shape=(batchsize, 1, 96, 96), filter_shape=(6,1,7,7), verbose=verbose) + b0.dimshuffle(0, 'x', 'x'))
     s0 = tanh(max_pool_2d(c0, (3,3))) # this is not the correct leNet5 model, but it's closer to
 
-    c1 = tanh(conv2d(s0, w1, image_shape=(batchsize, 6, 30, 30), filter_shape=(16,6,7,7)) + b1.dimshuffle(0, 'x', 'x'))
+    c1 = tanh(conv2d(s0, w1, image_shape=(batchsize, 6, 30, 30), filter_shape=(16,6,7,7), verbose=verbose) + b1.dimshuffle(0, 'x', 'x'))
     s1 = tanh(max_pool_2d(c1, (3,3)))
 
     p_y_given_x = softmax(dot(tanh(dot(s1.flatten(2), vv)+cc), v)+c)
@@ -110,9 +111,9 @@ def bench_ConvMed(batchsize):
 
     train = function([si, nsi], cost,
             updates=[(p,p-lr*gp) for p,gp in zip(params, gparams)])
-    eval_and_report(train, "ConvMed", [batchsize], N=120)
+    eval_and_report(train, "ConvMed", [batchsize], N=120, extra=extra)
 
-def bench_ConvLarge(batchsize):
+def bench_ConvLarge(batchsize, extra=""):
     data_x.value = randn(n_examples, 1, 256, 256)
     w0 = shared(rand(6, 1, 7, 7) * numpy.sqrt(6 / (25.)))
     b0 = shared(zeros(6))
@@ -124,10 +125,10 @@ def bench_ConvLarge(batchsize):
     c = shared(zeros(outputs))
     params = [w0, b0, w1, b1, v, c, vv, cc]
 
-    c0 = tanh(conv2d(sx, w0, image_shape=(batchsize, 1, 256, 256), filter_shape=(6,1,7,7)) + b0.dimshuffle(0, 'x', 'x'))
+    c0 = tanh(conv2d(sx, w0, image_shape=(batchsize, 1, 256, 256), filter_shape=(6,1,7,7), verbose=verbose) + b0.dimshuffle(0, 'x', 'x'))
     s0 = tanh(max_pool_2d(c0, (5,5))) # this is not the correct leNet5 model, but it's closer to
 
-    c1 = tanh(conv2d(s0, w1, image_shape=(batchsize, 6, 50, 50), filter_shape=(16,6,7,7)) + b1.dimshuffle(0, 'x', 'x'))
+    c1 = tanh(conv2d(s0, w1, image_shape=(batchsize, 6, 50, 50), filter_shape=(16,6,7,7), verbose=verbose) + b1.dimshuffle(0, 'x', 'x'))
     s1 = tanh(max_pool_2d(c1, (4,4)))
 
     p_y_given_x = softmax(dot(tanh(dot(s1.flatten(2), vv)+cc), v)+c)
@@ -182,11 +183,11 @@ if __name__ == '__main__':
             theano.config.GpuFFTConvOp.valid = True
             extra = "/fft-valid"
 
-        #bench_ConvSmall(1)
-        #bench_ConvSmall(60)
-        #bench_ConvMed(1, extra=extra)
-        #bench_ConvMed(60)
+        bench_ConvSmall(1)
+        bench_ConvSmall(60)
+        bench_ConvMed(1, extra=extra)
+        bench_ConvMed(60)
         bench_ConvLarge(1, extra=extra)
-        #bench_ConvLarge(60)
+        bench_ConvLarge(60)
 
 
