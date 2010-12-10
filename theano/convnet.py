@@ -1,12 +1,15 @@
-import time, socket
+import socket, sys, time
+
+import numpy
+from numpy import asarray, random
+random.seed(2344)
+
 from theano.tensor import lscalar, lvector, matrix, tanh, dot, grad, log, arange
 from theano.tensor.nnet import softmax
 from theano.tensor.nnet.conv import conv2d
 from theano.tensor.signal.downsample import max_pool_2d
 from theano import shared, function, config
-import numpy, theano
-from numpy import asarray, random
-random.seed(2344)
+import theano
 
 def rand(*size):
     return asarray(random.rand(*size), dtype=config.floatX)
@@ -135,13 +138,55 @@ def bench_ConvLarge(batchsize):
 
     train = function([si, nsi], cost,
             updates=[(p,p-lr*gp) for p,gp in zip(params, gparams)])
-    eval_and_report(train, "ConvLarge", [batchsize], N=120)
+    eval_and_report(train, "ConvLarge", [batchsize], N=120, extra=extra)
 
 if __name__ == '__main__':
-    bench_ConvSmall(1)
-    bench_ConvSmall(60)
-    bench_ConvMed(1)
-    bench_ConvMed(60)
-    bench_ConvLarge(1)
-    bench_ConvLarge(60)
+    fft=False
+    fft_valid = False
+    no_orig =False
+    for param in sys.argv[1:]:
+        if param == '--fft':
+            fft=True
+        elif param == '--fft-valid':
+            fft_valid = True
+        elif param == '--append':
+            bmark = open("%s_convnet_%s_%s.bmark"% (socket.gethostname(), config.device, config.floatX), 'a')
+        elif param.startswith('--verbose='):
+            verbose = int(param[10:])
+        elif param == '--no_orig':
+            no_orig=True
+        else:
+            print "Unknow parameter",param
+            sys.exit(1)
+
+    if bmark is None:#
+        bmark = open("%s_convnet_%s_%s.bmark"% (socket.gethostname(), config.device, config.floatX), 'w')
+
+    types = []
+    if no_orig == False:
+        types.append('orig')
+    if fft:
+        types.append('fft')
+    if fft_valid:
+        types.append('fft_valid')
+    for type in types:
+        extra = ''
+        if type == 'fft':
+            print "\n\n\n WILL BE USING GpuFFTConvOp for full gpu convolution\n\n\n"
+            from fft_conv_op import fft_conv_op
+            theano.config.GpuFFTConvOp.valid = False
+            extra = '/fft'
+        if type == 'fft_valid':
+            print "\n\n\n WILL BE USING GpuFFTConvOp for full and valid gpu convolution\n\n\n"
+            from fft_conv_op import fft_conv_op
+            theano.config.GpuFFTConvOp.valid = True
+            extra = "/fft-valid"
+
+        #bench_ConvSmall(1)
+        #bench_ConvSmall(60)
+        #bench_ConvMed(1, extra=extra)
+        #bench_ConvMed(60)
+        bench_ConvLarge(1, extra=extra)
+        #bench_ConvLarge(60)
+
 
