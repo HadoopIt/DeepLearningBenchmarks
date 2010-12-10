@@ -144,12 +144,15 @@ def bench_ConvLarge(batchsize, extra=""):
 if __name__ == '__main__':
     fft=False
     fft_valid = False
+    fft_valid_big_kern = False
     no_orig =False
     for param in sys.argv[1:]:
         if param == '--fft':
             fft=True
         elif param == '--fft-valid':
             fft_valid = True
+        elif param == '--fft-valid-big-kern':
+            fft_valid_big_kern = True
         elif param == '--append':
             bmark = open("%s_convnet_%s_%s.bmark"% (socket.gethostname(), config.device, config.floatX), 'a')
         elif param.startswith('--verbose='):
@@ -170,18 +173,28 @@ if __name__ == '__main__':
         types.append('fft')
     if fft_valid:
         types.append('fft_valid')
+    if fft_valid_big_kern:
+        types.append('fft_valid_big_kern')
     for type in types:
         extra = ''
         if type == 'fft':
             print "\n\n\n WILL BE USING GpuFFTConvOp for full gpu convolution\n\n\n"
             from fft_conv_op import fft_conv_op
             theano.config.GpuFFTConvOp.valid = False
+            theano.config.GpuFFTConvOp.valid_big_kern = False
             extra = '/fft'
         if type == 'fft_valid':
             print "\n\n\n WILL BE USING GpuFFTConvOp for full and valid gpu convolution\n\n\n"
             from fft_conv_op import fft_conv_op
             theano.config.GpuFFTConvOp.valid = True
+            theano.config.GpuFFTConvOp.valid_big_kern = False
             extra = "/fft-valid"
+        if type == 'fft_valid_big_kern':
+            print "\n\n\n WILL BE USING GpuFFTConvOp for full and valid gpu convolution\n\n\n"
+            from fft_conv_op import fft_conv_op
+            theano.config.GpuFFTConvOp.valid = False
+            theano.config.GpuFFTConvOp.valid_big_kern = True
+            extra = "/fft-valid-big-kern"
 
         bench_ConvSmall(1)
         bench_ConvSmall(60)
