@@ -71,7 +71,7 @@ for n_hidden in [50, 100,500,1500]:
         # Reshape to a matrix due to limitation of advanced indexing
         cost = -TT.xlogx.xlogy0(T, y)
         cost = cost.sum(1).mean()
-        updates = {}
+        updates = theano.compat.python2x.OrderedDict()
         # Compute gradients
         rval = TT.grad(cost, [W_hh, W_uh, W_hy])
         gW_hh, gW_uh, gW_hy = rval
