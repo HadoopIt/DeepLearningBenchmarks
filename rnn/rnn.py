@@ -4,7 +4,7 @@ import time
 
 import numpy
 
-for n_hidden in [100,500,1500]:
+for n_hidden in [50, 100,500,1500]:
     for n_words in [10,54,3000]:
         data = numpy.random.randint(n_words, size=(100*100,))
         print data.shape
@@ -35,7 +35,7 @@ for n_hidden in [100,500,1500]:
         W_hh = theano.shared(W_hh, 'W_hh')
         b_h = theano.shared(b_h, name='b_h')
         W_hy = theano.shared(W_hy, 'W_hy')
-        b_y = theano.shared(b_y,'by')
+        b_y = theano.shared(b_y,'b_y')
 
 
         t = TT.ivector('t')
@@ -46,7 +46,7 @@ for n_hidden in [100,500,1500]:
         T = TT.set_subtensor(_T[arange, t], ones)
 
         u = TT.ivector('u')
-        U = TT.set_subtensor(_T[arange, ], ones)
+        U = TT.set_subtensor(_T[arange, u], ones)
         trans_inp = W_uh[u]
         activ = TT.nnet.sigmoid
 

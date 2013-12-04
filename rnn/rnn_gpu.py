@@ -10,7 +10,7 @@ for n_hidden in [50, 100,500,1500]:
         data = numpy.random.randint(n_words, size=(100*100,))
         print data.shape
 
-        h0_tm1 = TT.alloc(numpy.float32(0), n_hidden)
+        h0_tm1 = TT.alloc(numpy.array(0, dtype=theano.config.floatX), n_hidden)
         rng = numpy.random.RandomState(123)
         floatX='float32'
 
@@ -40,10 +40,10 @@ for n_hidden in [50, 100,500,1500]:
 
 
         t = TT.ivector('t')
-        _T = TT.alloc(numpy.float32(0), 100, n_words)
+        _T = TT.alloc(numpy.array(0, dtype=floatX), 100, n_words)
         arange = TT.constant(numpy.arange(100).astype('int32'))
         ones = TT.constant(numpy.ones((100,),
-                                          dtype=numpy.float32(0)))
+                                          dtype=floatX))
         T = TT.set_subtensor(_T[arange, t], ones)
 
         u = TT.ivector('u')
